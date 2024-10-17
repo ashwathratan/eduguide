@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Career Path Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .quiz-container { max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        #question { font-weight: bold; margin-bottom: 15px; font-size: 18px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+        button { margin: 5px; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+        #prev-btn { background-color: #007bff; color: white; }
+        #next-btn { background-color: #28a745; color: white; }
+        #submit-btn { background-color: #dc3545; color: white; }
+        #result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: #e9ecef; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="question"></div>
+        <ul id="options"></ul>
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+        <button id="submit-btn" style="display: none;">Submit</button>
+        <div id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which subject do you enjoy studying the most?",
+                options: ["Mathematics", "Biology", "History", "English", "Business Studies"],
+                relatedCareers: [0, 1, 2, 3, 4]
+            },
+            {
+                question: "What kind of activities do you find most engaging?",
+                options: [
+                    "Solving complex math problems",
+                    "Doing science experiments",
+                    "Debating social and political issues",
+                    "Writing stories or creating art",
+                    "Planning business ventures"
+                ],
+                relatedCareers: [0, 1, 2, 3, 4]
+            },
+            {
+                question: "Which of the following do you excel in academically?",
+                options: [
+                    "Logical reasoning",
+                    "Understanding living organisms and life sciences",
+                    "Memorizing dates, events, and historical facts",
+                    "Writing essays and interpreting literature",
+                    "Understanding market trends and business principles"
+                ],
+                relatedCareers: [0, 1, 2, 3, 4]
+            },
+            {
+                question: "How do you prefer to spend your free time?",
+                options: [
+                    "Solving puzzles or playing brain games",
+                    "Watching science documentaries",
+                    "Reading about historical events",
+                    "Writing poetry or designing graphics",
+                    "Reading business news or economic reports"
+                ],
+                relatedCareers: [0, 1, 2, 3, 4]
+            },
+            {
+                question: "Which of these subjects do you think will help you in the future?",
+                options: [
+                    "Advanced mathematics",
+                    "Medicine and health science",
+                    "Political science or law",
+                    "Creative writing or mass communication",
+                    "Economics or entrepreneurship"
+                ],
+                relatedCareers: [0, 1, 2, 3, 4]
+            }
+        ];
+
+        const careerFactors = {
+            "Science and Engineering": { demand: 90, stress: 60, comfort: 70, scope: 85, opportunity: 80, competition: 65, score: 0 },
+            "Biology and Health": { demand: 85, stress: 65, comfort: 75, scope: 80, opportunity: 70, competition: 70, score: 0 },
+            "Humanities and Social Sciences": { demand: 70, stress: 70, comfort: 80, scope: 75, opportunity: 60, competition: 75, score: 0 },
+            "Arts and Communication": { demand: 60, stress: 55, comfort: 85, scope: 70, opportunity: 65, competition: 80, score: 0 },
+            "Business and Economics": { demand: 80, stress: 75, comfort: 70, scope: 90, opportunity: 75, competition: 85, score: 0 }
+        };
+
+        let currentQuestion = 0;
+        const answers = Array(questions.length).fill(null);
+
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+
+            questionElement.innerText = questions[currentQuestion].question;
+            optionsElement.innerHTML = '';
+
+            questions[currentQuestion].options.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <label>
+                        <input type="radio" name="option" value="${index}" 
+                        ${answers[currentQuestion] === index ? 'checked' : ''} />
+                        ${option}
+                    </label>`;
+                optionsElement.appendChild(li);
+            });
+
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').style.display =
+                currentQuestion === questions.length - 1 ? 'none' : 'inline';
+            document.getElementById('submit-btn').style.display =
+                currentQuestion === questions.length - 1 ? 'inline' : 'none';
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                answers[currentQuestion] = Number(selectedOption.value);
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                alert('Please select an option before proceeding.');
+            }
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            currentQuestion--;
+            loadQuestion();
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                answers[currentQuestion] = Number(selectedOption.value);
+                const recommendation = generateRecommendation();
+                displayResult(recommendation);
+            } else {
+                alert('Please select an option to submit.');
+            }
+        });
+
+        function generateRecommendation() {
+            // Calculate career scores based on answers
+            answers.forEach((answer, index) => {
+                const relatedCareers = questions[index].relatedCareers;
+                const career = Object.keys(careerFactors)[relatedCareers[answer]];
+                careerFactors[career].score += 10; // Increase score based on answer
+            });
+
+            // Sort careers by score
+            const sortedCareers = Object.entries(careerFactors)
+                .sort((a, b) => b[1].score - a[1].score);
+
+            return sortedCareers.slice(0, 2); // Top 2 recommendations
+        }
+
+        function displayResult(recommendation) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <strong>Recommended Careers:</strong><br>
+                1. ${recommendation[0][0]} (Score: ${recommendation[0][1].score})<br>
+                2. ${recommendation[1][0]} (Score: ${recommendation[1][1].score})`;
+            resultDiv.style.display = 'block';
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

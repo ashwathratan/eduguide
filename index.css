@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Light background for better contrast */
+}
+
+header {
+    background-color: #4CAF50; /* Main header color */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Space between left and right */
+    align-items: center; /* Center vertically */
+    background-color: #84d486; /* Light green background for nav */
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px; /* Increased padding for better clickability */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s; /* Transition for hover effect */
+}
+
+nav ul li a:hover {
+    background-color: #689d6a; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+    background-color: white; /* White background for sections */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for sections */
+}
+
+h2 {
+    color: #4CAF50; /* Header color */
+    border-bottom: 2px solid #4CAF50; /* Underline for section headers */
+    padding-bottom: 5px; /* Space between text and underline */
+}
+
+#courses {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#listofcourse {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px; /* Space above the list */
+}
+
+#listofcourse li {
+    padding: 10px;
+    background-color: #e7f5e0; /* Light green for list items */
+    margin: 5px 0; /* Space between items */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+#listofcourse li:hover {
+    background-color: #d4edda; /* Darker green on hover */
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #4CAF50; /* Same as header */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.get-started-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgb(0, 82, 8);; /* Primary button color */
+    color: white; /* Text color */
+    text-decoration: none; /* No underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s; /* Transition effect */
+    font-size: 16px; /* Font size */
+}
+
+.get-started-btn:hover {
+    background-color: rgb(1, 121, 13);; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
